@@ -1,3 +1,5 @@
 openai
 python-dotenv
 langgraph>=0.2.67
+nltk
+rouge_score

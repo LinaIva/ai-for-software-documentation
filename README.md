@@ -24,6 +24,7 @@ Install required Python packages:
 
 ```bash
 pip install -r requirements.txt
+python setup_nltk.py
 ```
 
 ### Notes
