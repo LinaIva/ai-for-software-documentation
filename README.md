@@ -17,7 +17,7 @@ Create a .env file in the project root and add your OpenAI API key:
 
 `OPENAI_API_KEY=your_api_key_here`
 
-Make sure .env is included in `.gitignore`.
+Make sure `.env` is included in `.gitignore`.
 
 ### 3. Install dependencies
 Install required Python packages:
