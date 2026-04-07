@@ -15,26 +15,40 @@ def evaluate_similarity(reference: str, generated: str) -> dict:
     # ROUGE
     scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
     rouge_scores = scorer.score(reference, generated)
+
+    overlap = average_token_overlap(reference_tokens, generated_tokens)
     return {
         "bleu": round(bleu, 4),
-        # BLEU — степень совпадения n-грамм (насколько текст похож по словам и фразам)
-        # BLEU — miera zhody n-gramov (ako veľmi sa texty zhodujú v slovách a frázach)
+        # BLEU - степень совпадения n-грамм (насколько текст похож по словам и фразам)
+        # BLEU - miera zhody n-gramov (ako veľmi sa texty zhodujú v slovách a frázach)
         "meteor": round(meteor, 4),
-        # METEOR — учитывает совпадения слов, порядок и частично смысл (более гибкая метрика)
-        # METEOR — zohľadňuje zhodu slov, ich poradie a čiastočne význam (flexibilnejšia metrika)
+        # METEOR - учитывает совпадения слов, порядок и частично смысл (более гибкая метрика)
+        # METEOR - zohľadňuje zhodu slov, ich poradie a čiastočne význam (flexibilnejšia metrika)
         "rouge1": round(rouge_scores["rouge1"].fmeasure, 4),
-        # ROUGE-1 — совпадение отдельных слов (unigram overlap)
-        # ROUGE-1 — zhoda jednotlivých slov (unigramy)
+        # ROUGE-1 - совпадение отдельных слов (unigram overlap)
+        # ROUGE-1 - zhoda jednotlivých slov (unigramy)
         "rouge2": round(rouge_scores["rouge2"].fmeasure, 4),
-        # ROUGE-2 — совпадение пар слов (bigram overlap)
-        # ROUGE-2 — zhoda dvojíc slov (bigramy)
+        # ROUGE-2 - совпадение пар слов (bigram overlap)
+        # ROUGE-2 - zhoda dvojíc slov (bigramy)
         "rougeL": round(rouge_scores["rougeL"].fmeasure, 4),
-        # ROUGE-L — совпадение по самой длинной общей последовательности слов
-        # ROUGE-L — zhoda podľa najdlhšej spoločnej postupnosti slov
+        # ROUGE-L - совпадение по самой длинной общей последовательности слов
+        # ROUGE-L - zhoda podľa najdlhšej spoločnej postupnosti slov
         "rouge_scores": rouge_scores,
         # Полный объект с ROUGE (precision, recall, fmeasure)
         # Kompletné ROUGE skóre (precision, recall, f-measure)
+        "token_overlap": round(overlap, 4),
+        # Average Token Overlap - доля общих слов между текстами
+        # Average Token Overlap - podiel spoločných slov medzi textami
     }
+
+def average_token_overlap(reference_tokens, generated_tokens):
+    ref_set = set(reference_tokens)
+    gen_set = set(generated_tokens)
+    intersection = ref_set.intersection(gen_set)
+    union = ref_set.union(gen_set)
+    if len(union) == 0:
+        return 0.0
+    return len(intersection) / len(union)
 
 expected_doc = "This function sorts a list of integers in ascending order."
 generated_doc = "Sorts the input list of numbers in increasing order."

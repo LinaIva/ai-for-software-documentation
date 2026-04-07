@@ -1,5 +1,9 @@
-openai
-python-dotenv
+openai~=2.24.0
+python-dotenv~=1.2.1
 langgraph>=0.2.67
-nltk
+nltk~=3.9.2
 rouge_score
+sentence-transformers~=5.1.2
+scikit-learn~=1.6.1
+rouge-score~=0.1.2
+numpy<2
