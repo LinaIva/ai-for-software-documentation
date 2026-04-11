@@ -4,19 +4,19 @@ from rouge_score import rouge_scorer
 import nltk
 
 
-def evaluate_similarity(reference: str, generated: str) -> dict:
-    reference_tokens = nltk.word_tokenize(reference)
-    generated_tokens = nltk.word_tokenize(generated)
+def evaluateSimilarity(reference: str, generated: str) -> dict:
+    referenceTokens = nltk.word_tokenize(reference)
+    generatedTokens = nltk.word_tokenize(generated)
     # BLEU
     smoothie = SmoothingFunction().method1
-    bleu = sentence_bleu([reference_tokens], generated_tokens, smoothing_function=smoothie)
+    bleu = sentence_bleu([referenceTokens], generatedTokens, smoothing_function=smoothie)
     # METEOR
-    meteor = meteor_score([reference_tokens], generated_tokens)
+    meteor = meteor_score([referenceTokens], generatedTokens)
     # ROUGE
     scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
     rouge_scores = scorer.score(reference, generated)
 
-    overlap = average_token_overlap(reference_tokens, generated_tokens)
+    overlap = averageTokenOverlap(referenceTokens, generatedTokens)
     return {
         "bleu": round(bleu, 4),
         # BLEU - степень совпадения n-грамм (насколько текст похож по словам и фразам)
@@ -41,22 +41,24 @@ def evaluate_similarity(reference: str, generated: str) -> dict:
         # Average Token Overlap - podiel spoločných slov medzi textami
     }
 
-def average_token_overlap(reference_tokens, generated_tokens):
-    ref_set = set(reference_tokens)
-    gen_set = set(generated_tokens)
-    intersection = ref_set.intersection(gen_set)
-    union = ref_set.union(gen_set)
+def averageTokenOverlap(referenceTokens, generatedTokens):
+    refSet = set(referenceTokens)
+    genSet = set(generatedTokens)
+    intersection = refSet.intersection(genSet)
+    union = refSet.union(genSet)
     if len(union) == 0:
         return 0.0
     return len(intersection) / len(union)
 
-expected_doc = "This function sorts a list of integers in ascending order."
-generated_doc = "Sorts the input list of numbers in increasing order."
-# expected_doc = "The cat is on the table."
-# generated_doc = "The cat is here."
-# expected_doc = "The cat is on the table."
-# generated_doc = "My bird likes to be at home."
-res = evaluate_similarity(expected_doc, generated_doc)
-print(res)
-for i, j in res.items():
-    print(f'{i}: {j}')
+
+if __name__ == "__main__":
+    expected_doc = "This function sorts a list of integers in ascending order."
+    generated_doc = "Sorts the input list of numbers in increasing order."
+    # expected_doc = "The cat is on the table."
+    # generated_doc = "The cat is here."
+    # expected_doc = "The cat is on the table."
+    # generated_doc = "My bird likes to be at home."
+    res = evaluateSimilarity(expected_doc, generated_doc)
+    print(res)
+    for i, j in res.items():
+        print(f'{i}: {j}')
