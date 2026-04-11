@@ -42,6 +42,7 @@ if __name__ == "__main__":
     print("Random code sample:")
     print(sample["code"])
     summary = summarizeCode(sample["code"])
+    # summary = summarizeCode("")
     print("AI summary:")
     print(summary)
-    print(evaluate(sample["summary"], summary))
+    # print(evaluate(sample["summary"], summary))
