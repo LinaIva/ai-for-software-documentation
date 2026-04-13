@@ -20,37 +20,12 @@ def getRandomSample(data):
     return data[index], index
 
 def summarizeCode(code: str) -> str:
-    # zero shot prompt
-    # prompt = f"""
-    #     You are a code summarization assistant.
-    #     Your task is to read the given code and produce a clear summary.
-    #     Code:
-    #     {code}
-    #     """
-    # zero shot prompt roses framework
     prompt = f"""
-    Role:
-    You are an expert software documentation assistant.
-
-    Objective:
-    Generate a concise and accurate summary of the given source code.
-
-    Scenario:
-    You are working with code snippets from a real-world dataset. The code may vary in complexity, and your goal is to help developers quickly understand what the code does.
-
-    Expected Solution:
-    Provide a clear summary that explains the purpose and main functionality of the code. Focus on key logic, functions, or behavior.
-
-    Steps:
-    1. Identify the main purpose of the code.
-    2. Highlight important functions, classes, or logic if relevant.
-    3. Focus on overall behavior, not line-by-line explanation.
-    4. Do not invent or assume functionality that is not present.
-    5. Write the summary in 2–4 clear sentences using simple technical English.
-
-    Code:
-    {code}
-    """.strip()
+        You are a code summarization assistant.
+        Your task is to read the given code and produce a clear summary.
+        Code:
+        {code}
+        """
     response = client.responses.create(model="gpt-4o-mini", input=prompt)
     return response.output_text.strip()
 
