@@ -31,14 +31,12 @@ def summarizeCode(code: str) -> str:
     You are working with code snippets from a real-world dataset. The code may vary in complexity, and your goal is to help developers quickly understand what the code does.
 
     Expected Solution:
-    Provide a clear summary that explains the purpose and main functionality of the code. Focus on key logic, functions, or behavior.
+    Provide a clear summary that explains the purpose and main functionality of the code. Focus on key logic, functions, or behavior. Focus on overall behavior, not line-by-line explanation.  Do not invent or assume functionality that is not present.
 
     Steps:
     1. Identify the main purpose of the code.
     2. Highlight important functions, classes, or logic if relevant.
-    3. Focus on overall behavior, not line-by-line explanation.
-    4. Do not invent or assume functionality that is not present.
-    5. Write the summary in 2–4 clear sentences using simple technical English.
+    3. Write the summary in 2–4 clear sentences using simple technical English.
 
     Code:
     {code}
