@@ -6,7 +6,6 @@ import numpy as np
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def cosinSim(text1 ="The cat is sitting on the mat.", text2 ="A cat is lying on the rug."):
-    # model = SentenceTransformer("all-MiniLM-L6-v2")
     embedding1 = model.encode(text1)
     embedding2 = model.encode(text2)
     similarity = cosine_similarity([embedding1], [embedding2])[0][0]
