@@ -20,9 +20,8 @@ Code:
     return prompt.strip()
 
 def generateSummaryWithRag(inputCode, k=2):
-    vectordb = CodeVectorDB(dataset_path="dataset.json", db_path="./qdrant_data")
-    vectordb.indexDataset()
-    topK = vectordb.searchSimilarCode(inputCode, k=k)
+    db = CodeVectorDB(dataset_path="dataset.json", db_path="./qdrant_data")
+    topK = db.searchSimilarCode(inputCode, k=k)
     prompt = buildRagPrompt(inputCode, topK)
     aiResponse = chatWithAi(prompt)
     return topK, aiResponse

@@ -11,9 +11,9 @@ class CodeVectorDB:
         self.client = QdrantClient(path=db_path)
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
         self.vector_size = self.model.get_sentence_embedding_dimension()
-        self._ensure_collection()
+        self._ensureCollection()
 
-    def _ensure_collection(self):
+    def _ensureCollection(self):
         collections = self.client.get_collections().collections
         existing_names = {c.name for c in collections}
         if COLLECTION_NAME not in existing_names:
@@ -27,8 +27,11 @@ class CodeVectorDB:
     def indexDataset(self, force_reindex=False):
         dataset = self.loadDataset()
         if force_reindex:
-            self.client.delete_collection(COLLECTION_NAME)
-            self._ensure_collection()
+            collections = self.client.get_collections().collections
+            existingNames = {c.name for c in collections}
+            if COLLECTION_NAME in existingNames:
+                self.client.delete_collection(COLLECTION_NAME)
+            self._ensureCollection()
         info = self.client.get_collection(COLLECTION_NAME)
         if getattr(info, "points_count", 0) and not force_reindex:
             return
@@ -40,8 +43,8 @@ class CodeVectorDB:
                         "code": code, "summary": item.get("summary", ""), "instruction": item.get("instruction", "")}))
         self.client.upsert(collection_name=COLLECTION_NAME, points=points)
 
-    def searchSimilarCode(self, inputСode, k=2):
-        query_vector = self.model.encode(inputСode).tolist()
+    def searchSimilarCode(self, inputCode, k=2):
+        query_vector = self.model.encode(inputCode).tolist()
         results = self.client.query_points(collection_name=COLLECTION_NAME, query=query_vector,  limit=k).points
         return [{"code": point.payload.get("code", ""),"summary": point.payload.get("summary", ""),
                 "instruction": point.payload.get("instruction", ""),"score": point.score} for point in results]
