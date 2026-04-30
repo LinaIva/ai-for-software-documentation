@@ -21,6 +21,7 @@ PROMPTS = [
     )
 
     builder.add_edge("miu_finisher", END)
-
     return builder.compile()"""
 ]
+
+# TODO pole objektov ako dict, napriklad rag1: item(prompt)...
