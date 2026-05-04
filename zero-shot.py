@@ -4,6 +4,7 @@ import random
 from openai import OpenAI
 from dotenv import load_dotenv
 from similarity import evaluateSimilarity
+from prompts import PROMPTS
 
 
 load_dotenv()
@@ -16,16 +17,14 @@ def loadExamples(file_path: str):
 
 def getRandomSample(data):
     index = random.randint(0, len(data) - 1)
-    # index = 0
     return data[index], index
 
-def summarizeCode(code: str) -> str:
-    prompt = f"""
-        You are a code summarization assistant.
-        Your task is to read the given code and produce a clear summary.
-        Code:
-        {code}
-        """
+def build_prompt(prompt_name: str, **kwargs) -> str:
+    return PROMPTS[prompt_name].format(**kwargs).strip()
+
+def summarizeCode(code: str, prompt_name: str = "zero_shot") -> str:
+    prompt = build_prompt(prompt_name, code=code)
+    # print(prompt)
     response = client.responses.create(model="gpt-4o-mini", input=prompt)
     return response.output_text.strip()
 
@@ -42,8 +41,7 @@ if __name__ == "__main__":
     sample, idx = getRandomSample(data)
     print("Random code sample:")
     print(sample["code"])
-    summary = summarizeCode(sample["code"])
-    # summary = summarizeCode("")
-    print("AI summary:")
+    summary = summarizeCode(sample["code"], prompt_name="zero_shot")
+    print("\nAI summary:")
     print(summary)
-    # print(evaluate(sample["summary"], summary))
+    # evaluate(sample["summary"], summary)

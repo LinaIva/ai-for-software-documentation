@@ -6,7 +6,7 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 COLLECTION_NAME = "codeExamples"
 
 class CodeVectorDB:
-    def __init__(self, dataset_path="dataset.json", db_path="./qdrant_data"):
+    def __init__(self, dataset_path="mydataset.json", db_path="./qdrant_data"):
         self.dataset_path = dataset_path
         self.client = QdrantClient(path=db_path)
         self.model = SentenceTransformer("all-MiniLM-L6-v2")

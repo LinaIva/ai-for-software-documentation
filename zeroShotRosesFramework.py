@@ -3,6 +3,7 @@ import json
 import random
 from openai import OpenAI
 from dotenv import load_dotenv
+from prompts import PROMPTS
 from similarity import evaluateSimilarity
 
 
@@ -19,28 +20,11 @@ def getRandomSample(data):
     # index = 0
     return data[index], index
 
-def summarizeCode(code: str) -> str:
-    prompt = f"""
-    Role:
-    You are an expert software documentation assistant.
+def build_prompt(prompt_name: str, **kwargs) -> str:
+    return PROMPTS[prompt_name].format(**kwargs).strip()
 
-    Objective:
-    Generate a concise and accurate summary of the given source code.
-
-    Scenario:
-    You are working with code snippets from a real-world dataset. The code may vary in complexity, and your goal is to help developers quickly understand what the code does.
-
-    Expected Solution:
-    Provide a clear summary that explains the purpose and main functionality of the code. Focus on key logic, functions, or behavior. Focus on overall behavior, not line-by-line explanation.  Do not invent or assume functionality that is not present.
-
-    Steps:
-    1. Identify the main purpose of the code.
-    2. Highlight important functions, classes, or logic if relevant.
-    3. Write the summary in 2–4 clear sentences using simple technical English.
-
-    Code:
-    {code}
-    """.strip()
+def summarizeCode(code: str, prompt_name: str = "roses") -> str:
+    prompt = build_prompt(prompt_name, code=code)
     response = client.responses.create(model="gpt-4o-mini", input=prompt)
     return response.output_text.strip()
 

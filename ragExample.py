@@ -3,32 +3,56 @@ from chatWithAI import chatWithAi
 from prompts import PROMPTS
 
 
-def buildRagPrompt(inputCode, topK):
-    examplesText = []
+def format_examples(topK):
+    examples_text = []
     for i, example in enumerate(topK, start=1):
-        examplesText.append(f"Example {i}:\nCode:\n{example['code']}\n\nSummary: {example['summary']}\n")
-    joinedExamples = ("\n" + "-" * 50 + "\n").join(examplesText)
-    prompt = f"""
-You are a code summarization assistant. Your task is to read the input Python code and generate a clear summary.
-Below are examples with code similar to the input code:
-{joinedExamples}
-
-Now summarize this new code:
+        examples_text.append(
+            f"""Example {i}:
 Code:
-{inputCode}
-"""
-    return prompt.strip()
+{example["code"]}
+
+Summary:
+{example["summary"]}
+""")
+    return ("\n" + "-" * 50 + "\n").join(examples_text)
+
+
+def build_prompt(prompt_name: str, **kwargs) -> str:
+    return PROMPTS[prompt_name].format(**kwargs).strip()
 
 def generateSummaryWithRag(inputCode, k=2):
-    db = CodeVectorDB(dataset_path="dataset.json", db_path="./qdrant_data")
+    db = CodeVectorDB(
+        dataset_path="dataset.json",
+        db_path="./qdrant_data")
     topK = db.searchSimilarCode(inputCode, k=k)
-    prompt = buildRagPrompt(inputCode, topK)
+    examples = format_examples(topK)
+    prompt = build_prompt("rag", code=inputCode, examples=examples)
     aiResponse = chatWithAi(prompt)
     return topK, aiResponse
 
 
 if __name__ == "__main__":
-    inputCode = PROMPTS[0]
+    inputCode = """
+def build_graph():
+    builder = StateGraph(DocState)
+    builder.add_node("reader", reader_node)
+    builder.add_node("writer", writer_node)
+    builder.add_node("verifier", verifier_node)
+    builder.add_node("miu_finisher", miu_finisher_node)
+    builder.add_edge(START, "reader")
+    builder.add_edge("reader", "writer")
+    builder.add_edge("writer", "verifier")
+    builder.add_conditional_edges(
+        "verifier",
+        route_after_verifier,
+        {
+            "writer": "writer",
+            "miu_finisher": "miu_finisher",
+        },
+    )
+    builder.add_edge("miu_finisher", END)
+    return builder.compile()
+"""
     topExamples, generatedSummary = generateSummaryWithRag(inputCode, k=2)
     print("TOP K=2 MATCHES:")
     for ex in topExamples:
