@@ -1,5 +1,4 @@
 PROMPTS = {
-
     "zero_shot": """
 You are a code summarization assistant.
 Task:
@@ -79,4 +78,3 @@ Code:
 {code}
 """
 }
-# TODO pole objektov ako dict, napriklad rag: item(prompt)...
