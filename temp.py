@@ -39,12 +39,22 @@ def analyze_dataset(df, code_col, summary_col, dataset_name):
     return df
 
 
-def plot_distribution(df, column, title, xlabel):
+def plot_distribution(df, column, title, xlabel, percentile_limit=0.95, bins=50):
+    values = df[column].dropna()
+    if values.empty:
+        return
+
+    upper_bound = values.quantile(percentile_limit)
+    filtered_values = values[values <= upper_bound]
+
     plt.figure()
-    plt.hist(df[column], bins=50)
+    counts, _, _ = plt.hist(filtered_values, bins=bins)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel("Count")
+    plt.xlim(0, upper_bound)
+    if len(counts) > 0:
+        plt.ylim(0, max(counts) * 1.1)
     plt.show()
 
 def print_examples(df, code_col, summary_col, dataset_name):
@@ -85,12 +95,8 @@ codexglue_df = analyze_dataset(
 
 synth_df = pd.read_csv(PSUM_PATH)
 
-synth_df = analyze_dataset(
-    synth_df,
-    code_col="prompter",
-    summary_col="assistant",
-    dataset_name="Synthetic Python Summary"
-)
+synth_df = analyze_dataset(synth_df, code_col="prompter", summary_col="assistant",
+                           dataset_name="guidevit/python_code_summarization")
 
 # Графики
 
@@ -111,14 +117,14 @@ plot_distribution(
 plot_distribution(
     synth_df,
     "loc",
-    "LOC distribution - Synthetic",
+    "LOC distribution - guidevit/python_code_summarization",
     "Lines of code"
 )
 
 plot_distribution(
     synth_df,
     "summary_words",
-    "Summary length - Synthetic",
+    "Summary length - guidevit/python_code_summarization",
     "Words"
 )
 
@@ -133,5 +139,5 @@ print_examples(
     synth_df,
     code_col="prompter",
     summary_col="assistant",
-    dataset_name="Synthetic Python"
+    dataset_name="guidevit/python_code_summarization"
 )
