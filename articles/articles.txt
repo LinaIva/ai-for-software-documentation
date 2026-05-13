@@ -1,0 +1,14 @@
+READSUM: Retrieval-Augmented Adaptive Transformer for Source Code Summarization
+https://ieeexplore.ieee.org/document/10113620
+
+LLM-Augmented Software Documentation Generator with Contextual Memory
+https://ieeexplore.ieee.org/document/11368433
+
+DocAgent: A Multi-Agent System for Automated Code Documentation Generation
+https://aclanthology.org/2025.acl-demo.44/
+
+CodexGLUE: A Machine Learning Benchmark Dataset for Code Understanding and Generation
+https://neurips.cc/virtual/2021/22750
+
+Using an LLM to Help with Code Understanding
+https://ieeexplore.ieee.org/document/10548827
