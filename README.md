@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This project explores the use of artificial intelligence in software documentation and code comprehension, with a focus on source code summarization. The current implementation investigates how large language models can generate concise natural-language summaries of Python code. The project also explores retrieval-based context enhancement and evaluation methods for comparing generated summaries with reference documentation.
+This repository contains a master's thesis project focused on the use of artificial intelligence in software documentation and code comprehension. The main focus is source code summarization. The current implementation investigates how large language models can generate concise natural-language summaries of Python code. The project also tests whether similar code examples can help the model produce better summaries and how the generated summaries can be compared with reference ones.
 ## Goal
 
 Design and implement an AI-based solution for software documentation and code comprehension.
