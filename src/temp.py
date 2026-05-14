@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-CODEXGLUE_PATH = "datasets/train.jsonl"
-PSUM_PATH = "datasets/python_summary_synth_data.csv"
+CODEXGLUE_PATH = "../datasets/train.jsonl"
+PSUM_PATH = "../datasets/python_summary_synth_data.csv"
 
 def clean_code(code):
     code = str(code)

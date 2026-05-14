@@ -21,7 +21,7 @@ def build_prompt(prompt_name: str, **kwargs) -> str:
     return PROMPTS[prompt_name].format(**kwargs).strip()
 
 def generateSummaryWithRag(inputCode, k=2):
-    db = CodeVectorDB(dataset_path="datasets/dataset.json", db_path="./qdrant_data")
+    db = CodeVectorDB(dataset_path="../datasets/dataset.json", db_path="../qdrant_data")
     topK = db.searchSimilarCode(inputCode, k=k)
     examples = format_examples(topK)
     prompt = build_prompt("rag", code=inputCode, examples=examples)
