@@ -1,8 +1,14 @@
 # AI for software documentation
 
+## Quick Links
+
+- [Presentation](./presentations%20and%20thesis/Exploiting%20artificial%20intelligence%20in%20software%20documentation%20and%20comprehension.pdf)
+- [Master's Thesis (PDF)](./presentations%20and%20thesis/Master_s_Thesis.pdf)
+
 ## Project Description
 
 This repository contains a master's thesis project focused on the use of artificial intelligence in software documentation and code comprehension. The main focus is source code summarization. The current implementation investigates how large language models can generate concise natural-language summaries of Python code. The project also tests whether similar code examples can help the model produce better summaries and how the generated summaries can be compared with reference ones.
+
 ## Goal
 
 Design and implement an AI-based solution for software documentation and code comprehension.
