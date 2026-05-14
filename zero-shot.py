@@ -9,7 +9,7 @@ from prompts import PROMPTS
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-DATA_FILE = "dataset.json"
+DATA_FILE = "datasets/dataset.json"
 
 def loadExamples(file_path: str):
     with open(file_path, "r", encoding="utf-8") as f:
