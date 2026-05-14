@@ -209,3 +209,4 @@ __marimo__/
 qdrant_data/
 .idea/
 datasets/
+articles/*.pdf
