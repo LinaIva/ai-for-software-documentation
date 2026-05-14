@@ -210,3 +210,4 @@ qdrant_data/
 .idea/
 datasets/
 articles/*.pdf
+.DS_Store
