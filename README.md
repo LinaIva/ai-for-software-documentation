@@ -24,7 +24,7 @@ The current prototype is evaluated by comparing generated summaries with referen
 
 The project also compares different summarization strategies, including zero-shot prompting, few-shot prompting, the ROSES framework, and Retrieval-Augmented Generation(RAG).
 
-## Planned Tasks
+## Future work
 
 - Extend the comparison of prompting strategies
 - Explore an agent-based approach using LangGraph

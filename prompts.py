@@ -53,7 +53,7 @@ async def log_endpoint(request: Request):
     if extra:
         message += " " + " ".join(map(str, extra))
     logger.log(message, level=level)
-    return {"status": "ok"}
+    return {{"status": "ok"}}
 
 Summary:
 Language: Python
